@@ -12,6 +12,7 @@ else ()
 endif ()
 
 set(BUILD_DEPRECATED OFF CACHE BOOL "Exclude deprecated API in the build" FORCE)
+set(TARGET_GLES2 OFF CACHE BOOL "Target OpenGL ES 3.0 and WebGL 2.0" FORCE)
 
 FetchContent_MakeAvailable(magnum)
 
