@@ -1,0 +1,38 @@
+diff --git a/src/Magnum/GL/Mesh.cpp b/src/Magnum/GL/Mesh.cpp
+index 1111111..2222222 100644
+--- a/src/Magnum/GL/Mesh.cpp
++++ b/src/Magnum/GL/Mesh.cpp
+@@ -613,7 +613,7 @@ void Mesh::drawInternal(Int count, Int baseVertex, Int instanceCount, GLintptr i
+     (this->*state.bindImplementation)();
+ 
+     /* Non-instanced mesh */
+-    if(instanceCount == 1) {
++    if(!_instanced) {
+         /* Non-indexed mesh */
+         if(!_indexBuffer.id()) {
+             glDrawArrays(GLenum(_primitive), baseVertex, count);
+@@ -930,6 +930,10 @@ void Mesh::attributePointerInternal(const Buffer& buffer, const GLuint location,
+ }
+ 
+ void Mesh::attributePointerInternal(AttributeLayout&& attribute) {
++    /* If we have an instanced attribute, remember that and then always use the
++       *Instanced() APIs to draw the mesh */
++    if(attribute.divisor) _instanced = true;
++
+     CORRADE_ASSERT(attribute.buffer.id(),
+         "GL::Mesh::addVertexBuffer(): empty or moved-out Buffer instance was passed", );
+     (this->*Context::current().state().mesh.attributePointerImplementation)(std::move(attribute));
+diff --git a/src/Magnum/GL/Mesh.h b/src/Magnum/GL/Mesh.h
+index 1111111..2222222 100644
+--- a/src/Magnum/GL/Mesh.h
++++ b/src/Magnum/GL/Mesh.h
+@@ -1205,6 +1205,9 @@ class MAGNUM_GL_EXPORT Mesh: public AbstractObject {
+         /* Whether the _attributes storage was constructed (it's not when the
+            object is constructed using NoCreate). Also fits in the gap. */
+         bool _constructed{};
++        /* Whether the mesh contains instanced attributes. If it does, it gets
++           always drawn using the *Instanced() variants. */
++        bool _instanced{};
+         Int _count{}, _baseVertex{}, _instanceCount{1};
+         #ifndef MAGNUM_TARGET_GLES2
+         UnsignedInt _baseInstance{};
