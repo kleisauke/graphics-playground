@@ -58,7 +58,7 @@ if (EMSCRIPTEN)
     append_linker_flags("-sALLOW_MEMORY_GROWTH=1")
     append_linker_flags("-sFILESYSTEM=0 -sAUTO_JS_LIBRARIES=0 -sDISABLE_EXCEPTION_THROWING=1")
     append_linker_flags("-lhtml5.js -lwebgl.js -lwebgl2.js")
-    append_linker_flags("-sFULL_ES3=1 -sMIN_WEBGL_VERSION=2")
+    append_linker_flags("-sMIN_WEBGL_VERSION=2")
 
     append_linker_flags("-sINITIAL_MEMORY=16MB -sMALLOC=emmalloc")
 
