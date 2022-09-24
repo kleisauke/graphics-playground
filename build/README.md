@@ -5,8 +5,8 @@
 ### Docker (preferred method)
 
 ```bash
-$ docker run --rm -v $(pwd):/src emscripten/emsdk:2.0.31 ./build.sh
-$ docker run -p 8080:80 --rm -v $(pwd):/src emscripten/emsdk:2.0.31 emrun.py --port 80 --no_browser /src
+$ docker run --rm -v $(pwd):/src emscripten/emsdk:3.1.22 ./build.sh
+$ docker run -p 8080:80 --rm -v $(pwd):/src emscripten/emsdk:3.1.22 emrun --port 80 --no_browser /src
 # Visit http://localhost:8080/dist/playground.html
 ```
 
@@ -31,7 +31,8 @@ git pull
 ./emsdk activate tot
 
 # Prefer the default system-installed version of Node.js
-sed -i'.old' "/^NODE_JS/s/= .*/= '\/usr\/bin\/node'/" .emscripten
+NODE=$(which node)
+sed -i'.old' "/^NODE_JS/s/= .*/= '${NODE//\//\\/}'/" .emscripten
 
 # Activate PATH and other environment variables in the current terminal
 source ./emsdk_env.sh
@@ -41,16 +42,16 @@ Then build and run with:
 
 ```bash
 ./build.sh
-emrun.py --port 8080 --no_browser .
+emrun --port 8080 --no_browser .
 # Visit http://localhost:8080/dist/playground.html
 ```
 
 ## Windows (with MSVC)
 
-Download https://www.libsdl.org/release/SDL2-devel-2.0.16-VC.zip and unzip to `C:/SDL2-2.0.16`.
+Download https://www.libsdl.org/release/SDL2-devel-2.24.0-VC.zip and unzip to `C:/SDL2-2.24.0`.
 
 Then add this directory to the `CMAKE_PREFIX_PATH`, for example:
 
 ```powershell
--DCMAKE_PREFIX_PATH="C:/SDL2-2.0.16"
+-DCMAKE_PREFIX_PATH="C:/SDL2-2.24.0"
 ```

@@ -30,25 +30,11 @@
   var Module = {
     preRun: [],
     postRun: [],
-    print: (function () {
-      return function (text) {
-        text = Array.prototype.slice.call(arguments).join(' ');
-        console.log(text);
-      };
-    })(),
-    printErr: function (text) {
-      text = Array.prototype.slice.call(arguments).join(' ');
-      console.error(text);
-    },
-    canvas: (function() {
-      return document.getElementById('canvas');
-    })(),
-    /*setStatus: function (text) {
-      console.log("status: " + text);
-    },
-    monitorRunDependencies: function (left) {
-      console.log("monitor run deps: " + left);
-    }*/
+    print: (stdout) => console.log(stdout),
+    printErr: (stderr) => console.error(stderr),
+    canvas: document.getElementById('canvas'),
+    /*setStatus: (text) => console.log(`status: ${text}`),
+    monitorRunDependencies: (left) => console.log(`monitor run deps: ${left}`)*/
   };
 </script>
 {{{ SCRIPT }}}

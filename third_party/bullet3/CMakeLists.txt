@@ -1,7 +1,7 @@
 FetchContent_Declare(bullet3
     GIT_REPOSITORY https://github.com/bulletphysics/bullet3
-    GIT_TAG ce26271
-    #[[GIT_TAG 3.1.7]])
+    #[[GIT_TAG 7dee343]]
+    GIT_TAG 3.24)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     set(USE_MSVC_RUNTIME_LIBRARY_DLL ON CACHE BOOL "Use MSVC Runtime Library DLL (/MD or /MDd)" FORCE)

@@ -28,9 +28,12 @@ while [ $# -gt 0 ]; do
   shift
 done
 
+# Run as many parallel jobs as there are available CPU cores
+export MAKEFLAGS="-j$(nproc)"
+
 # Dependency version numbers
 # Note: keep in-sync with third_party/corrade
-VERSION_CORRADE=bb626d6
+VERSION_CORRADE=14bd297
 
 echo "============================================="
 echo "Environment"
@@ -45,7 +48,7 @@ test -f "$TARGET/bin/corrade-rc" || (
   curl -Ls https://github.com/mosra/corrade/archive/$VERSION_CORRADE.tar.gz | tar xzC $DEPS/corrade-rc --strip-components=1
   cd $DEPS/corrade-rc
   cmake -B_build -H. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX=$TARGET \
-    -DWITH_INTERCONNECT=OFF -DWITH_PLUGINMANAGER=OFF -DWITH_TESTSUITE=OFF -DWITH_UTILITY=OFF
+    -DCORRADE_WITH_{INTERCONNECT,PLUGINMANAGER,TESTSUITE,UTILITY}=OFF
   make -C _build install
 )
 
@@ -56,6 +59,6 @@ echo "============================================="
   mkdir -p $DEPS/playground
   cd $DEPS/playground
   emcmake cmake $SOURCE_DIR -Wno-dev -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_RUNTIME_OUTPUT_DIRECTORY="$SOURCE_DIR/dist" \
-    -DCORRADE_RC_EXECUTABLE=$TARGET/bin/corrade-rc
+    -DCORRADE_RC_EXECUTABLE="$TARGET/bin/corrade-rc"
   make
 )
