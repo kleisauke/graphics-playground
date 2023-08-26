@@ -33,7 +33,7 @@ export MAKEFLAGS="-j$(nproc)"
 
 # Dependency version numbers
 # Note: keep in-sync with third_party/corrade
-VERSION_CORRADE=14bd297
+VERSION_CORRADE=183b375
 
 echo "============================================="
 echo "Environment"

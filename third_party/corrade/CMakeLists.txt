@@ -1,6 +1,6 @@
 FetchContent_Declare(corrade
     GIT_REPOSITORY https://github.com/mosra/corrade.git
-    GIT_TAG 14bd297
+    GIT_TAG 183b375
     #[[GIT_TAG v2020.06]]
     GIT_SUBMODULES "")
 

@@ -19,7 +19,7 @@ endif ()
 # Only enable pedantic compiler flags when compiling with MSVC
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     set_directory_properties(PROPERTIES CORRADE_USE_PEDANTIC_FLAGS ON)
-endif()
+endif ()
 
 add_executable(playground WIN32
     Application.cpp
@@ -33,8 +33,7 @@ add_executable(playground WIN32
     OrbitCamera.cpp
     OrbitCamera.h
     Rigidbody.cpp
-    Rigidbody.h
-    )
+    Rigidbody.h)
 target_link_libraries(playground PRIVATE
     Corrade::Main
     Magnum::Application

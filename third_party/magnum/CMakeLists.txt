@@ -1,9 +1,8 @@
 FetchContent_Declare(magnum
     GIT_REPOSITORY https://github.com/mosra/magnum.git
-    GIT_TAG b01f876
+    GIT_TAG 0d31f74
     #[[GIT_TAG v2020.06]]
-    GIT_SUBMODULES ""
-    PATCH_COMMAND git apply "${CMAKE_CURRENT_SOURCE_DIR}/magnum.patch")
+    GIT_SUBMODULES "")
 
 if (EMSCRIPTEN)
     set(MAGNUM_WITH_EMSCRIPTENAPPLICATION ON CACHE BOOL "Build EmscriptenApplication library" FORCE)

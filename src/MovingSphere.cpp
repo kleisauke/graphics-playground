@@ -69,10 +69,7 @@ void MovingSphere::adjustVelocity(const Timeline &timeline,
 
 void MovingSphere::jump(const Vector3 &gravity, const Vector3 &upAxis) {
     Vector3 jumpDirection = upAxis;
-
     Float jumpSpeed = std::sqrt(2.0f * gravity.dot() * JumpHeight);
-
-    jumpDirection = (jumpDirection + upAxis).normalized();
 
     Vector3 velocity = Vector3{rigidBody().getLinearVelocity()};
 
@@ -80,9 +77,9 @@ void MovingSphere::jump(const Vector3 &gravity, const Vector3 &upAxis) {
     if (alignedSpeed > 0.0f) {
         jumpSpeed = Math::max(jumpSpeed - alignedSpeed, 0.0f);
     }
-    velocity += jumpDirection * jumpSpeed;
+    Vector3 impulse = jumpDirection * jumpSpeed;
 
-    rigidBody().setLinearVelocity(btVector3{velocity});
+    rigidBody().applyCentralImpulse(btVector3{impulse});
 }
 
 }  // namespace GraphicsPlayground

@@ -136,8 +136,9 @@ Application::Application(const Arguments &arguments)
         .setViewport(GL::defaultFramebuffer.viewport().size());
 
     /* Create an instanced shader */
-    _shader = Shaders::PhongGL{Shaders::PhongGL::Flag::VertexColor |
-                               Shaders::PhongGL::Flag::InstancedTransformation};
+    _shader = Shaders::PhongGL{Shaders::PhongGL::Configuration{}.setFlags(
+        Shaders::PhongGL::Flag::VertexColor |
+        Shaders::PhongGL::Flag::InstancedTransformation)};
     _shader.setAmbientColor(0x111111_rgbf)
         .setSpecularColor(0x330000_rgbf)
         .setLightPositions({{10.0f, 15.0f, 5.0f, 0.0f}});
@@ -350,7 +351,7 @@ void Application::keyPressEvent(KeyEvent &event) {
         _playerInput.x() = 1.0f;
     } else if (event.key() == KeyEvent::Key::Space) {
         /* TODO(kleisauke): Fix jump behavior */
-        /*desiredJump ^= true;*/
+        /*_desiredJump ^= true;*/
     } else if (event.key() == KeyEvent::Key::F10) { /* Show menu */
         _showMenu ^= true;
     } else if (!_imgui.handleKeyPressEvent(event))
