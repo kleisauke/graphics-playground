@@ -7,19 +7,19 @@ namespace GraphicsPlayground {
 
 using namespace Math::Literals;
 
-constexpr const Float Distance = 5.0f;
+constexpr Float Distance = 5.0f;
 
-constexpr const Float FocusRadius = 1.0f;
-constexpr const Float FocusCentering = 0.75f;
+constexpr Float FocusRadius = 1.0f;
+constexpr Float FocusCentering = 0.75f;
 
-constexpr const Float RotationSpeed = 90.0f;
+constexpr Float RotationSpeed = 90.0f;
 
-constexpr const Float MinVerticalAngle = -45.0f, MaxVerticalAngle = 60.0f;
+constexpr Float MinVerticalAngle = -45.0f, MaxVerticalAngle = 60.0f;
 
-constexpr const Float AlignDelay = 5.0f;
-constexpr const Float AlignSmoothRange = 45.0f;
+constexpr Float AlignDelay = 5.0f;
+constexpr Float AlignSmoothRange = 45.0f;
 
-constexpr const Float UpAlignmentSpeed = 360.0f;
+constexpr Float UpAlignmentSpeed = 360.0f;
 
 namespace {
 
@@ -122,7 +122,7 @@ void OrbitCamera::updateFocusPoint(const Timeline &timeline,
 
 bool OrbitCamera::manualRotation(const Timeline &timeline,
                                  const Vector2 &cameraInput) {
-    constexpr const Float e = 0.01f;
+    constexpr Float e = 0.01f;
     if (cameraInput.x() < -e || cameraInput.x() > e || cameraInput.y() < -e ||
         cameraInput.y() > e) {
         orbitAngles +=

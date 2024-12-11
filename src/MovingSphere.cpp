@@ -5,12 +5,12 @@
 
 namespace GraphicsPlayground {
 
-constexpr const Float MaxSpeed = 5.0f;
+constexpr Float MaxSpeed = 5.0f;
 
-constexpr const Float MaxAcceleration = 10.0f;
-constexpr const Float MaxAirAcceleration = 0.0f;
+constexpr Float MaxAcceleration = 10.0f;
+constexpr Float MaxAirAcceleration = 0.0f;
 
-constexpr const Float JumpHeight = 2.0f;
+constexpr Float JumpHeight = 2.0f;
 
 namespace {
 

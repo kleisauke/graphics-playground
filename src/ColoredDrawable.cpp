@@ -5,7 +5,7 @@
 namespace GraphicsPlayground {
 
 ColoredDrawable::ColoredDrawable(
-    Object3D &object, Corrade::Containers::Array<InstanceData> &instanceData,
+    Object3D &object, Containers::Array<InstanceData> &instanceData,
     const Color3 &color, const Matrix4 &primitiveTransformation,
     SceneGraph::DrawableGroup3D &drawables)
     : SceneGraph::Drawable3D{object, &drawables},

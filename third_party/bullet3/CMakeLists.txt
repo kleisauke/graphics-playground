@@ -1,5 +1,5 @@
 FetchContent_Declare(bullet3
-    GIT_REPOSITORY https://github.com/bulletphysics/bullet3
+    GIT_REPOSITORY https://github.com/bulletphysics/bullet3.git
     #[[GIT_TAG 7dee343]]
     GIT_TAG 3.25)
 

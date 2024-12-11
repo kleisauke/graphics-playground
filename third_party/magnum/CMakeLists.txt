@@ -1,6 +1,6 @@
 FetchContent_Declare(magnum
     GIT_REPOSITORY https://github.com/mosra/magnum.git
-    GIT_TAG 0d31f74
+    GIT_TAG 1d2a1c1
     #[[GIT_TAG v2020.06]]
     GIT_SUBMODULES "")
 

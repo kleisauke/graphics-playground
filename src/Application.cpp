@@ -9,6 +9,7 @@
 #include <Magnum/BulletIntegration/DebugDraw.h>
 #include <Magnum/GL/DefaultFramebuffer.h>
 #include <Magnum/GL/Renderer.h>
+#include <Magnum/Math/Time.h>
 #include <Magnum/MeshTools/Compile.h>
 #include <Magnum/MeshTools/Transform.h>
 #include <Magnum/Timeline.h>
@@ -41,10 +42,10 @@ class Application : public Platform::Application {
     void viewportEvent(ViewportEvent &event) override;
     void keyPressEvent(KeyEvent &event) override;
     void keyReleaseEvent(KeyEvent &event) override;
-    void mousePressEvent(MouseEvent &event) override;
-    void mouseReleaseEvent(MouseEvent &event) override;
-    void mouseMoveEvent(MouseMoveEvent &event) override;
-    void mouseScrollEvent(MouseScrollEvent &event) override;
+    void pointerPressEvent(PointerEvent &event) override;
+    void pointerReleaseEvent(PointerEvent &event) override;
+    void pointerMoveEvent(PointerMoveEvent &event) override;
+    void scrollEvent(ScrollEvent &event) override;
     void textInputEvent(TextInputEvent &event) override;
     void drawEvent() override;
     void showMenu();
@@ -207,7 +208,7 @@ Application::Application(const Arguments &arguments)
     /* Start the timer, loop at 60 Hz max */
 #ifndef CORRADE_TARGET_EMSCRIPTEN
     setSwapInterval(1);
-    setMinimalLoopPeriod(16);
+    setMinimalLoopPeriod(16.0_msec);
 #endif
     _timeline.start();
 }
@@ -337,22 +338,22 @@ void Application::drawEvent() {
 
 void Application::keyPressEvent(KeyEvent &event) {
     /* Movement */
-    if (event.key() == KeyEvent::Key::Up ||
-        event.key() == KeyEvent::Key::W) {
+    if (event.key() == Key::Up ||
+        event.key() == Key::W) {
         _playerInput.z() = -1.0f;
-    } else if (event.key() == KeyEvent::Key::Left ||
-               event.key() == KeyEvent::Key::A) {
+    } else if (event.key() == Key::Left ||
+               event.key() == Key::A) {
         _playerInput.x() = -1.0f;
-    } else if (event.key() == KeyEvent::Key::Down ||
-               event.key() == KeyEvent::Key::S) {
+    } else if (event.key() == Key::Down ||
+               event.key() == Key::S) {
         _playerInput.z() = 1.0f;
-    } else if (event.key() == KeyEvent::Key::Right ||
-               event.key() == KeyEvent::Key::D) {
+    } else if (event.key() == Key::Right ||
+               event.key() == Key::D) {
         _playerInput.x() = 1.0f;
-    } else if (event.key() == KeyEvent::Key::Space) {
+    } else if (event.key() == Key::Space) {
         /* TODO(kleisauke): Fix jump behavior */
         /*_desiredJump ^= true;*/
-    } else if (event.key() == KeyEvent::Key::F10) { /* Show menu */
+    } else if (event.key() == Key::F10) { /* Show menu */
         _showMenu ^= true;
     } else if (!_imgui.handleKeyPressEvent(event))
         return;
@@ -362,13 +363,13 @@ void Application::keyPressEvent(KeyEvent &event) {
 
 void Application::keyReleaseEvent(KeyEvent &event) {
     /* Movement */
-    if (event.key() == KeyEvent::Key::Up || event.key() == KeyEvent::Key::W ||
-        event.key() == KeyEvent::Key::Down || event.key() == KeyEvent::Key::S) {
+    if (event.key() == Key::Up || event.key() == Key::W ||
+        event.key() == Key::Down || event.key() == Key::S) {
         _playerInput.z() = 0.0f;
-    } else if (event.key() == KeyEvent::Key::Left ||
-               event.key() == KeyEvent::Key::A ||
-               event.key() == KeyEvent::Key::Right ||
-               event.key() == KeyEvent::Key::D) {
+    } else if (event.key() == Key::Left ||
+               event.key() == Key::A ||
+               event.key() == Key::Right ||
+               event.key() == Key::D) {
         _playerInput.x() = 0.0f;
     } else if (!_imgui.handleKeyReleaseEvent(event))
         return;
@@ -376,23 +377,23 @@ void Application::keyReleaseEvent(KeyEvent &event) {
     event.setAccepted();
 }
 
-void Application::mousePressEvent(MouseEvent &event) {
-    if (_imgui.handleMousePressEvent(event))
+void Application::pointerPressEvent(PointerEvent &event) {
+    if (_imgui.handlePointerPressEvent(event))
         event.setAccepted();
 }
 
-void Application::mouseReleaseEvent(MouseEvent &event) {
-    if (_imgui.handleMouseReleaseEvent(event))
+void Application::pointerReleaseEvent(PointerEvent &event) {
+    if (_imgui.handlePointerReleaseEvent(event))
         event.setAccepted();
 }
 
-void Application::mouseMoveEvent(MouseMoveEvent &event) {
-    if (_imgui.handleMouseMoveEvent(event)) {
+void Application::pointerMoveEvent(PointerMoveEvent &event) {
+    if (_imgui.handlePointerMoveEvent(event)) {
         event.setAccepted();
         return;
     }
 
-    constexpr const Float angleScale = 0.01f;
+    constexpr Float angleScale = 0.01f;
     const Float angleX = event.relativePosition().x() * angleScale;
     const Float angleY = event.relativePosition().y() * angleScale;
     _cameraInput = Vector2{angleY, angleX};
@@ -400,12 +401,12 @@ void Application::mouseMoveEvent(MouseMoveEvent &event) {
     event.setAccepted();
 }
 
-void Application::mouseScrollEvent(MouseScrollEvent &event) {
+void Application::scrollEvent(ScrollEvent &event) {
     const Float delta = event.offset().y();
     if (Math::abs(delta) < 1.0e-2f)
         return;
 
-    if (_imgui.handleMouseScrollEvent(event))
+    if (_imgui.handleScrollEvent(event))
         /* Prevent scrolling the page */
         event.setAccepted();
 }
@@ -422,7 +423,7 @@ void Application::showMenu() {
 
     /* General information */
     ImGui::Text("Hide/show menu: F10");
-    ImGui::Text("Rendering: %3.2f FPS", Double(ImGui::GetIO().Framerate));
+    ImGui::Text("Rendering: %3.2f FPS", static_cast<Double>(ImGui::GetIO().Framerate));
     ImGui::Spacing();
     ImGui::Separator();
 

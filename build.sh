@@ -8,10 +8,8 @@ SOURCE_DIR=$PWD
 BUILD_DIR=$SOURCE_DIR/build
 
 DEPS=$BUILD_DIR/deps
-TARGET=$BUILD_DIR/target
 rm -rf $DEPS/
 mkdir -p $DEPS
-mkdir -p $TARGET
 
 # Define default arguments
 # This can be overridden with:
@@ -28,29 +26,16 @@ while [ $# -gt 0 ]; do
   shift
 done
 
-# Run as many parallel jobs as there are available CPU cores
-export MAKEFLAGS="-j$(nproc)"
-
-# Dependency version numbers
-# Note: keep in-sync with third_party/corrade
-VERSION_CORRADE=183b375
+# Common compiler flags
+export CFLAGS="-fno-rtti -fno-exceptions -mnontrapping-fptoint -msimd128 -DCORRADE_NO_ASSERT"
+if [ "$BUILD_TYPE" = "Debug" ]; then export CFLAGS+=" -gsource-map"; fi
+export CXXFLAGS="$CFLAGS"
 
 echo "============================================="
 echo "Environment"
 echo "============================================="
 emcc --version
-
-echo "============================================="
-echo "Compiling native corrade-rc"
-echo "============================================="
-test -f "$TARGET/bin/corrade-rc" || (
-  mkdir -p $DEPS/corrade-rc
-  curl -Ls https://github.com/mosra/corrade/archive/$VERSION_CORRADE.tar.gz | tar xzC $DEPS/corrade-rc --strip-components=1
-  cd $DEPS/corrade-rc
-  cmake -B_build -H. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX=$TARGET \
-    -DCORRADE_WITH_{INTERCONNECT,PLUGINMANAGER,TESTSUITE,UTILITY}=OFF
-  make -C _build install
-)
+node --version
 
 echo "============================================="
 echo "Compiling playground"
@@ -58,7 +43,7 @@ echo "============================================="
 (
   mkdir -p $DEPS/playground
   cd $DEPS/playground
-  emcmake cmake $SOURCE_DIR -Wno-dev -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_RUNTIME_OUTPUT_DIRECTORY="$SOURCE_DIR/dist" \
-    -DCORRADE_RC_EXECUTABLE="$TARGET/bin/corrade-rc"
-  make
+  emcmake cmake $SOURCE_DIR -Wno-dev -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX=$SOURCE_DIR 
+  cmake --build . -- -j$(nproc)
+  cmake --install . --component playground
 )

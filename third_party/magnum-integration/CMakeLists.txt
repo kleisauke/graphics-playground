@@ -1,6 +1,6 @@
 FetchContent_Declare(magnum-integration
     GIT_REPOSITORY https://github.com/mosra/magnum-integration.git
-    GIT_TAG 35c05fd
+    GIT_TAG 697ddd2
     #[[GIT_TAG v2020.06]]
     GIT_SUBMODULES "")
 
