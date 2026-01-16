@@ -57,7 +57,6 @@ if (EMSCRIPTEN)
         webgl2.js)
     target_link_options(playground PUBLIC
         --shell-file=${CMAKE_CURRENT_SOURCE_DIR}/shell.html
-        -sWASM_BIGINT
         -sTEXTDECODER=2
         -sMALLOC=emmalloc
         -sALLOW_MEMORY_GROWTH=1
@@ -65,6 +64,7 @@ if (EMSCRIPTEN)
         -sMIN_WEBGL_VERSION=2
         -sMIN_CHROME_VERSION=91
         -sMIN_FIREFOX_VERSION=89
+        -sMIN_SAFARI_VERSION=160400
         -sFILESYSTEM=0
         -sAUTO_JS_LIBRARIES=0
         -sAUTO_NATIVE_LIBRARIES=0

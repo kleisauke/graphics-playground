@@ -3,6 +3,9 @@ FetchContent_Declare(bullet3
     #[[GIT_TAG 7dee343]]
     GIT_TAG 3.25)
 
+# Silence CMake 3.28.x deprecation warning
+set(CMAKE_POLICY_VERSION_MINIMUM 3.5 CACHE STRING "Minimum policy version for CMake" FORCE)
+
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     set(USE_MSVC_RUNTIME_LIBRARY_DLL ON CACHE BOOL "Use MSVC Runtime Library DLL (/MD or /MDd)" FORCE)
 endif ()

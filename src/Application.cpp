@@ -274,8 +274,8 @@ void Application::drawEvent() {
 
     if (_drawCubes) {
         /* Populate instance data with transformations and colors */
-        arrayResize(_boxInstanceData, 0);
-        arrayResize(_sphereInstanceData, 0);
+        arrayClear(_boxInstanceData);
+        arrayClear(_sphereInstanceData);
         _camera->draw(_drawables);
 
         _shader.setProjectionMatrix(_camera->projectionMatrix());
@@ -338,17 +338,13 @@ void Application::drawEvent() {
 
 void Application::keyPressEvent(KeyEvent &event) {
     /* Movement */
-    if (event.key() == Key::Up ||
-        event.key() == Key::W) {
+    if (event.key() == Key::Up || event.key() == Key::W) {
         _playerInput.z() = -1.0f;
-    } else if (event.key() == Key::Left ||
-               event.key() == Key::A) {
+    } else if (event.key() == Key::Left || event.key() == Key::A) {
         _playerInput.x() = -1.0f;
-    } else if (event.key() == Key::Down ||
-               event.key() == Key::S) {
+    } else if (event.key() == Key::Down || event.key() == Key::S) {
         _playerInput.z() = 1.0f;
-    } else if (event.key() == Key::Right ||
-               event.key() == Key::D) {
+    } else if (event.key() == Key::Right || event.key() == Key::D) {
         _playerInput.x() = 1.0f;
     } else if (event.key() == Key::Space) {
         /* TODO(kleisauke): Fix jump behavior */
@@ -366,10 +362,8 @@ void Application::keyReleaseEvent(KeyEvent &event) {
     if (event.key() == Key::Up || event.key() == Key::W ||
         event.key() == Key::Down || event.key() == Key::S) {
         _playerInput.z() = 0.0f;
-    } else if (event.key() == Key::Left ||
-               event.key() == Key::A ||
-               event.key() == Key::Right ||
-               event.key() == Key::D) {
+    } else if (event.key() == Key::Left || event.key() == Key::A ||
+               event.key() == Key::Right || event.key() == Key::D) {
         _playerInput.x() = 0.0f;
     } else if (!_imgui.handleKeyReleaseEvent(event))
         return;
@@ -423,7 +417,8 @@ void Application::showMenu() {
 
     /* General information */
     ImGui::Text("Hide/show menu: F10");
-    ImGui::Text("Rendering: %3.2f FPS", static_cast<Double>(ImGui::GetIO().Framerate));
+    ImGui::Text("Rendering: %3.2f FPS",
+                static_cast<Double>(ImGui::GetIO().Framerate));
     ImGui::Spacing();
     ImGui::Separator();
 

@@ -32,7 +32,8 @@ Quaternion fromToRotation(Vector3 u, Vector3 v) {
 
 Float getAngle(Vector2 direction) {
     Deg angle = Math::acos(direction.y());
-    return direction.x() < 0.0f ? 360.0f - Float(angle) : Float(angle);
+    return direction.x() < 0.0f ? 360.0f - static_cast<Float>(angle)
+                                : static_cast<Float>(angle);
 }
 
 /* Calculates the shortest difference between two given angles */
@@ -86,13 +87,13 @@ void OrbitCamera::focus(const Timeline &timeline, const Vector2 &cameraInput,
 }
 
 void OrbitCamera::updateGravityAlignment(const Timeline &timeline,
-                                         const Vector3 &toUp) {
+                                         const Vector3 &upAxis) {
     Vector3 fromUp =
         gravityAlignment.transformVectorNormalized(Vector3::yAxis());
-    Deg angle = Math::angle(fromUp, toUp);
+    Deg angle = Math::angle(fromUp, upAxis);
     Deg maxAngle = Deg{UpAlignmentSpeed * timeline.previousFrameDuration()};
 
-    Quaternion newAlignment = fromToRotation(fromUp, toUp) * gravityAlignment;
+    Quaternion newAlignment = fromToRotation(fromUp, upAxis) * gravityAlignment;
     if (angle <= maxAngle) {
         gravityAlignment = newAlignment;
     } else {
@@ -139,7 +140,7 @@ bool OrbitCamera::automaticRotation(const Timeline &timeline) {
     }
     Vector3 alignedDelta =
         gravityAlignment.inverted().transformVectorNormalized(
-            (focusPoint - previousFocusPoint));
+            focusPoint - previousFocusPoint);
     Vector2 movement{alignedDelta.x(), alignedDelta.z()};
     Float movementDeltaSqr = movement.dot();
     if (movementDeltaSqr < 0.0001f) {

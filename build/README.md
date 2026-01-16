@@ -5,8 +5,8 @@
 ### Docker (preferred method)
 
 ```bash
-docker run -it --rm -v $(pwd):/src docker.io/emscripten/emsdk:3.1.73 ./build.sh
-docker run --network host --rm -v $(pwd):/src docker.io/emscripten/emsdk:3.1.73 emrun --port 8080 --no_browser /src
+docker run -it --rm -v $(pwd):/src docker.io/emscripten/emsdk:4.0.23 ./build.sh --build-type MinSizeRel
+docker run --network host --rm -v $(pwd):/src docker.io/emscripten/emsdk:4.0.23 emrun --port 8080 --no_browser /src
 # Visit http://localhost:8080/dist/playground.html
 ```
 
@@ -40,17 +40,17 @@ source ./emsdk_env.sh
 Then build and run with:
 
 ```bash
-./build.sh
+./build.sh --build-type MinSizeRel
 emrun --port 8080 --no_browser .
 # Visit http://localhost:8080/dist/playground.html
 ```
 
 ## Windows (with MSVC)
 
-Download https://www.libsdl.org/release/SDL2-devel-2.30.10-VC.zip and unzip to `C:/SDL2-2.30.10`.
+Download https://www.libsdl.org/release/SDL2-devel-2.32.10-VC.zip and unzip to `C:/SDL2-2.32.10`.
 
 Then add this directory to the `CMAKE_PREFIX_PATH`, for example:
 
 ```powershell
--DCMAKE_PREFIX_PATH="C:/SDL2-2.30.10"
+-DCMAKE_PREFIX_PATH="C:/SDL2-2.32.10"
 ```

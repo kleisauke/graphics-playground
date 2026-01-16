@@ -27,7 +27,7 @@ while [ $# -gt 0 ]; do
 done
 
 # Common compiler flags
-export CFLAGS="-fno-rtti -fno-exceptions -mnontrapping-fptoint -msimd128 -DCORRADE_NO_ASSERT"
+export CFLAGS="-fno-rtti -fno-exceptions -msimd128 -DCORRADE_NO_ASSERT"
 if [ "$BUILD_TYPE" = "Debug" ]; then export CFLAGS+=" -gsource-map"; fi
 export CXXFLAGS="$CFLAGS"
 
@@ -43,7 +43,7 @@ echo "============================================="
 (
   mkdir -p $DEPS/playground
   cd $DEPS/playground
-  emcmake cmake $SOURCE_DIR -Wno-dev -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX=$SOURCE_DIR 
+  emcmake cmake $SOURCE_DIR -Wno-dev -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX=$SOURCE_DIR
   cmake --build . -- -j$(nproc)
   cmake --install . --component playground
 )

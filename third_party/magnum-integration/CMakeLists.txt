@@ -1,11 +1,11 @@
 FetchContent_Declare(magnum-integration
     GIT_REPOSITORY https://github.com/mosra/magnum-integration.git
-    GIT_TAG 697ddd2
+    GIT_TAG 0184c83
     #[[GIT_TAG v2020.06]]
     GIT_SUBMODULES "")
 
-set(MAGNUM_WITH_BULLET ON CACHE BOOL "Build BulletIntegration library" FORCE)
-set(MAGNUM_WITH_IMGUI ON CACHE BOOL "Build ImGuiIntegration library" FORCE)
+set(MAGNUM_WITH_BULLETINTEGRATION ON CACHE BOOL "Build BulletIntegration library" FORCE)
+set(MAGNUM_WITH_IMGUIINTEGRATION ON CACHE BOOL "Build ImGuiIntegration library" FORCE)
 
 FetchContent_MakeAvailable(magnum-integration)
 

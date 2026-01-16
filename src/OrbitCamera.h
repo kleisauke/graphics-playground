@@ -15,7 +15,7 @@ class OrbitCamera : public Object3D {
     explicit OrbitCamera(Object3D *parent);
 
     void focus(const Timeline &timeline, const Vector2 &cameraInput,
-               const Vector3 &focusPoint, const Vector3 &upAxis);
+               const Vector3 &targetPoint, const Vector3 &upAxis);
 
  private:
     void updateGravityAlignment(const Timeline &timeline,
